@@ -6,6 +6,14 @@
                 <p>
                     <router-link :to="{name:'restaurante-show',params:{id : restaurante.id}}">Ver</router-link>
                     <router-link :to="{name:'restaurante-edit',params:{id : restaurante.id}}">Editar</router-link>
+                    <span v-if="showBorrar != restaurante.id">
+                        <a @click="borrarRestaurante(restaurante.id)" style="cursor:pointer;">Eliminar</a>
+                    </span>
+                    <span v-else>
+                        <p>Estas seguro de querer borrarlo ?</p>
+                        <button @click="cancelarBorrado()">Cancelar</button>
+                        <button @click="confirmarBorrado(restaurante.id)">Confirmar</button>
+                    </span>
                 </p>
             </li>
         </ul>
@@ -19,7 +27,8 @@ export default {
     data() {
         return {
             title: "Restaurantes",
-            restaurantes : []
+            restaurantes : [],
+            showBorrar : null
         }
     },
     mounted() {
@@ -33,7 +42,26 @@ export default {
                     console.log(response.data.data)
                     this.restaurantes = response.data.data;
                 })
+        },
+        borrarRestaurante(id) {
+            this.showBorrar = id;
+        },
+        cancelarBorrado() {
+            this.showBorrar = null;
+        },
+        confirmarBorrado(id){
+            axios.get("http://localhost/api-rest/restaurantes-api.php/delete-restaurante/"+id)
+            .then((response) => {
+                if(response.data.status == "success"){
+                    this.showBorrar = null;
+                    this.getRestaurantes();
+                }
+            })
+            .catch(error => {
+                console.log(error);
+            })
         }
+
     }
 }
 </script>

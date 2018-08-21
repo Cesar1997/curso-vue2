@@ -7,6 +7,7 @@ import RestaurantesList from "./RestaurantesList.vue"
 import RestauranteTop from "./RestauranteTop.vue"
 import RestauranteShow from './RestauranteShow.vue'
 import RestauranteAdd from './RestauranteAdd.vue'
+import RestauranteEdit from './RestauranteEdit.vue'
 Vue.use(VueRoter)
 Vue.component("home",Home)
 Vue.component("contacto",Contacto)
@@ -21,8 +22,7 @@ const routes = [
   { path : '/restaurante-add',component: RestauranteAdd},
   { path : "/restaurantes-list", component : RestaurantesList },
   { path : "/restaurante-top/:id", name:'restaurante-top'  ,component : RestauranteTop,},
-  { path : "/restaurante"}
-
+  { path : "/restaurante-edit/:id", name: 'restaurante-edit', component : RestauranteEdit}
 ];
 
 const router = new VueRoter({
